@@ -4,6 +4,7 @@ AUTH_BINARY=authApp
 LOGGER_BINARY=loggerServiceApp
 MAIL_BINARY=mailerApp
 LISTENER_BINARY=listenerApp
+FRONT_MS_BINARY=frontMSApp
 
 
 ## up: starts all containers in the background without forcing build
@@ -24,6 +25,12 @@ up_build: build_broker build_auth build_logger build_mail  build_listener
 down:
 	@echo "Stopping docker compose..."
 	docker-compose down
+	@echo "Done!"
+
+## build_front_ms: builds the front end binary for microservice as a linux executable
+build_front_ms:
+	@echo "Building front binary for microservice..."
+	cd ../front-end && env GOOS=linux CGO_ENABLED=0 go build -o ${FRONT_MS_BINARY} ./cmd/web
 	@echo "Done!"
 
 ## build_broker: builds the broker binary as a linux executable
